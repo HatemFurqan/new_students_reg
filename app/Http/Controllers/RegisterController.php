@@ -247,6 +247,12 @@ class RegisterController extends Controller
                 'guardian_id' => 'required|mimes:jpeg,jpg,bmp,gif,svg,webp,png,pdf,doc,docx',
             ]);
 
+            if ($request->social_situation == 'other'){
+                $social_situation = $request->other_social_situation;
+            }else{
+                $social_situation = $request->social_situation;
+            }
+
             $newStudent = NewStudent::query()->create([
                 'bod' => $request->birthdate,
                 'favorite_time' => $request->favorite_time,
@@ -271,10 +277,10 @@ class RegisterController extends Controller
                 'guardian_work' => $request->guardian_work,
                 'mother_name' => $request->mother_name,
                 'mother_work' => $request->mother_work,
-                'social_situation' => $request->social_situation,
+                'social_situation' => $social_situation,
                 'current_disease' => $request->current_disease,
                 'name_school' => $request->name_school,
-                'studied_qaeedah' => $request->studied_qaeedah == 'yes' ? 1 : 0,
+                'studied_qaeedah' => $request->studied_qaeedah == 'yes' ? '1' : '0',
                 'student_id_image' => $request->file('student_id')->store('public/new_students'),
                 'guardian_id_image' => $request->file('guardian_id')->store('public/new_students'),
             ]);
@@ -288,6 +294,7 @@ class RegisterController extends Controller
                 $student_name = $request->first_name . ' ' . $request->father_name . ' ' . $request->grandfather_name . ' ' . $request->family_name;
 
                 $customer = ['email' => $request->father_email, 'name' => $student_name];
+
                 $result  = $this->payment($request->token_pay, $customer, $amount);
 
                 $subscribe = Subscribe::query()->create([

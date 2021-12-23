@@ -297,6 +297,10 @@
             .select2-results__option {
                 text-align: right !important;
             }
+            #father_whatsApp_number,
+            #mother_whatsApp_number {
+                text-align: left !important;
+            }
         @endif
     </style>
 
@@ -775,11 +779,14 @@
                                         <div class="col-6 text-right">
                                             <label for="social_situation">{{ __('Student’s social situation') }}</label>
                                             <select name="social_situation" class="form-control" id="social_situation">
-                                                <option value="{{ __('Student’s social situation') }}">{{ __('Student’s social situation') }}</option>
+                                                <option value="{{ __('live with parents') }}">{{ __('live with parents') }}</option>
+                                                <option value="{{ __('live with father') }}">{{ __('live with father') }}</option>
+                                                <option value="{{ __('live with mother') }}">{{ __('live with mother') }}</option>
+                                                <option value="other">{{ __('other') }}</option>
                                             </select>
                                         </div>
 
-                                        <div class="col-6 text-right">
+                                        <div class="col-6 text-right d-none" id="other-social-situation-section">
                                             <label for="other_social_situation">{{ __('Student’s social situation') }}</label>
                                             <input type="text" name="other_social_situation" id="other_social_situation" class="form-control" placeholder="{{ __('Student’s social situation') }}">
                                         </div>
@@ -1324,20 +1331,20 @@
         });
 
         $(document).on('change', 'select[name="father_whatsApp_studied"]', function (e) {
-            $('input[name="father_whatsApp_number_studied"]').val("+" + $(this).val() + " ");
+            $('input[name="father_whatsApp_number_studied"]').val(" " + $(this).val() + "+");
         });
 
         $(document).on('change', 'select[name="mother_whatsApp_studied"]', function (e) {
-            $('input[name="mother_whatsApp_number_studied"]').val("+" + $(this).val() + " ");
+            $('input[name="mother_whatsApp_number_studied"]').val(" " + $(this).val() + "+");
         });
 
         //====================
         $(document).on('change', 'select[name="father_whatsApp"]', function (e) {
-            $('input[name="father_whatsApp_number"]').val("+" + $(this).val() + " ");
+            $('input[name="father_whatsApp_number"]').val(" " + $(this).val() + "+");
         });
 
         $(document).on('change', 'select[name="mother_whatsApp"]', function (e) {
-            $('input[name="mother_whatsApp_number"]').val("+" + $(this).val() + " ");
+            $('input[name="mother_whatsApp_number"]').val(" " + $(this).val() + "+");
         });
 
         $(document).on('change', 'input[name="chronic_disease"]', function (e) {
@@ -1347,6 +1354,16 @@
             }else{
                 $('textarea[name="current_disease"]').prop('required', true);
                 $('#explain_disease').removeClass('d-none');
+            }
+        });
+
+        $(document).on('change', 'select[name="social_situation"]', function (e) {
+            if($(this).val() == 'other'){
+                $('input[name="other_social_situation"]').prop('required', true);
+                $('#other-social-situation-section').removeClass('d-none');
+            }else{
+                $('input[name="other_social_situation"]').removeAttr('required');
+                $('#other-social-situation-section').addClass('d-none');
             }
         });
 

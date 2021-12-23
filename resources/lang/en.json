@@ -50,6 +50,16 @@
     "Guardian Commitment": "أتعهد أنا ولي أمر الطالب بأنني موافق على جميع الشروط والتعليمات والتوجيهات الخاصة الخاصة بالمركز وقد قرأتها بكل دقة وعناية، والله الموفق.",
     "You must confirm your familiarity with the distance education system": "You must confirm your familiarity with the distance education system",
     "To register in the semester": "<span style='color: #ea3223;'>Sorry!</span> To register in the First semester 2021 please <a href='https://furqanshop.com/eservices_checkout' style='color: #001af5;'>Click Here</a>",
-    "You must confirm one of the following options": "You must confirm one of the following options"
+    "You must confirm one of the following options": "You must confirm one of the following options",
+    "live with parents": "live with parents",
+    "live with father": "live with father",
+    "live with mother": "live with mother",
+    "other": "other",
+
+    "Morning Session | 09:00 am - 12:00 pm GMT+3": "Morning Session | 09:00 am - 12:00 pm GMT+3",
+    "Evening Session 1 | 03:00 pm - 06:00 pm GMT+3": "Evening Session 1 | 03:00 pm - 06:00 pm GMT+3",
+    "Evening Session 2 | 07:00 pm - 10:00 pm GMT+3": "Evening Session 2 | 07:00 pm - 10:00 pm GMT+3",
+    "Evening Session 3 | 11:00 pm - 02:00 am GMT+3": "Evening Session 3 | 11:00 pm - 02:00 am GMT+3",
+    "Evening Session 4 | 02:00 am - 05:00 am GMT+3": "Evening Session 4 | 02:00 am - 05:00 am GMT+3"
 
 }
