@@ -74,9 +74,8 @@ class SemesterRegistrationController extends Controller
         }
 
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
-        $favorite_times_male = FavoriteTime::query()->where('section',  '=', 'male')->get();
-        $favorite_times_female = FavoriteTime::query()->where('section',  '=', 'female')->get();
-        return view('one-to-one', ['countries' => $countries, 'favorite_times_male' => $favorite_times_male , 'favorite_times_female' => $favorite_times_female]);
+
+        return view('one-to-one', ['countries' => $countries]);
     }
 
     public function getStudentInfo()
@@ -86,9 +85,10 @@ class SemesterRegistrationController extends Controller
             ->where('section', '=', \request()->std_section)
             ->first();
 
-        if (\request()->query('form_type') == 'one_to_one' && $student){
-            if ($student->path != 'حفظ'){
-                return response()->json(['msg' => __('one_to_one.Sorry just')], 500);
+
+        if (\request()->query('form_type') == 'new_students' && $student){
+            if ($student->status == 1){
+                return response()->json(['msg' => __('To register in the semester')], 500);
             }
         }
 

@@ -21,7 +21,7 @@ class CouponController extends Controller
 
         Session::put('student_id', $student->id);
 
-        $course = Course::query()->where('code', 'one_to_one')->first();
+        $course = Course::query()->where('code', 'new-students')->first();
         $coupon = Coupon::where('code', $code)->where('course_id', $course->id)->first();
 
         if (@$coupon->is_valid){

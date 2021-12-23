@@ -41,17 +41,27 @@ class SubscribeNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $relation = 'student';
+        if ($this->details->form_type == 'stopped-students'){
+            $relation = 'student';
+        }
+
+        if ($this->details->form_type == 'new-students'){
+            $relation = 'newStudent';
+            $this->details->newStudent['name'] = $this->details->{$relation}->first_name . ' ' . $this->details->{$relation}->father_name . ' ' . $this->details->{$relation}->grandfather_name . ' ' . $this->details->{$relation}->family_name;
+        }
+
         if ($this->details->payment_method == 'hsbc'){
             return (new MailMessage())
                 ->from('Furqan@furqanreports.info')
-                ->subject('عملية اشتراك جديدة - ' . $this->details->student->name)
+                ->subject('عملية اشتراك جديدة - ' . $this->details->{$relation}->name)
                 ->view('emails.new-bank-subscribe', ['details' => $this->details]);
         }
 
         if ($this->details->payment_method == 'checkout_gateway' && is_numeric($this->details->response_code) && in_array($this->details->payment_status, ['Captured', 'Authorized']) ){
             return (new MailMessage())
                 ->from('Furqan@furqanreports.info')
-                ->subject('عملية اشتراك جديدة - ' . $this->details->student->name)
+                ->subject('عملية اشتراك جديدة - ' . $this->details->{$relation}->name)
                 ->view('emails.new-card-subscribe', ['details' => $this->details]);
         }
 

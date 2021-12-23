@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
 
@@ -293,6 +294,9 @@
             .rtl-text {
                 text-align: right !important;
             }
+            .select2-results__option {
+                text-align: right !important;
+            }
         @endif
     </style>
 
@@ -300,6 +304,13 @@
     <style>*,*::after,*::before{box-sizing:border-box}html{padding:1rem;background-color:#FFF;font-family: 'Cairo', sans-serif;, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif}#payment-form{width:31.5rem;margin:0 auto}iframe{width:100%}.one-liner{display:flex;flex-direction:column}#pay-button{border:none;border-radius:3px;color:#FFF;font-weight:500;height:40px;width:100%;background-color:#13395E;box-shadow:0 1px 3px 0 rgba(19,57,94,0.4)}#pay-button:active{background-color:#0B2A49;box-shadow:0 1px 3px 0 rgba(19,57,94,0.4)}#pay-button:hover{background-color:#15406B;box-shadow:0 2px 5px 0 rgba(19,57,94,0.4)}#pay-button:disabled{background-color:#697887;box-shadow:none}#pay-button:not(:disabled){cursor:pointer}.card-frame{border:solid 1px #13395E;border-radius:3px;width:100%;margin-bottom:8px;height:40px;box-shadow:0 1px 3px 0 rgba(19,57,94,0.2)}.card-frame.frame--rendered{opacity:1}.card-frame.frame--rendered.frame--focus{border:solid 1px #13395E;box-shadow:0 2px 5px 0 rgba(19,57,94,0.15)}.card-frame.frame--rendered.frame--invalid{border:solid 1px #D96830;box-shadow:0 2px 5px 0 rgba(217,104,48,0.15)}.success-payment-message{color:#13395E;line-height:1.4}.token{color:#b35e14;font-size:0.9rem;font-family: 'Cairo', sans-serif;}@media screen and (min-width: 31rem){.one-liner{flex-direction:row}.card-frame{width:318px;margin-bottom:0}#pay-button{width:175px;margin-left:8px}}</style>
 
     <style>
+        .select2.select2-container {
+            width: 100% !important;
+            display: block !important;
+        }
+        .select2-selection--single {
+            height: 33px!important;
+        }
         #cover-bg {
             background-image: url("{{ asset('images/cover.jpg') }}");
             width: 100%;
@@ -411,7 +422,7 @@
                                 <div id="signature-section">
                                     <label for="signature-label" class="text-right w-100 label-right" style="color: #ff0000 !important;">{{ __('Guardian Signature') }}:</label>
                                     <div class="form-group text-right">
-                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="signature" value="{{ __('Signature') }}" required>
+                                        <input class="form-check-input input-time" type="radio" name="signature" id="signature" value="{{ __('Signature') }}" required>
                                         <label class="form-check-label label-time" style="color: #ff0000 !important;" for="signature">
                                             {{ __('Signature') }}
                                         </label>
@@ -422,6 +433,7 @@
 
                             <input type="button" name="next" class="next action-button" value="{{ __('resubscribe.Next') }}" />
                         </fieldset>
+
                         <fieldset>
                             <div class="form-card">
                                 <div class="row">
@@ -430,7 +442,7 @@
                                     </div>
                                 </div>
 
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-3" id="study-before-section">
                                     <label for="signature-label" class="text-right w-100 label-right">{{ __('study at the Center before') }}:</label>
                                     <div class="form-group text-right w-100">
                                         <input class="form-check-input input-time" type="radio" name="study_before" id="yes" value="yes" required>
@@ -451,7 +463,7 @@
                                         <div class="input-group-prepend">
                                             <label class="input-group-text" for="std-section">{{ __('resubscribe.Section') }}</label>
                                         </div>
-                                        <select class="custom-select" name="section" id="std-section" required>
+                                        <select class="custom-select" name="section" id="std-section">
                                             <option selected>{{ __('resubscribe.Choose') }}...</option>
                                             <option value="1">{{ __('resubscribe.Male') }}</option>
                                             <option value="2">{{ __('resubscribe.Female') }}</option>
@@ -460,7 +472,7 @@
 
                                     <div class="form-group text-right">
                                         <label for="std-number" class="text-right">{{ __('resubscribe.Serial Number') }}</label>
-                                        <input type="number" min="0" name="student_number" class="form-control" id="std-number" placeholder="{{ __('resubscribe.Serial Number') }}" required>
+                                        <input type="number" min="0" name="student_number" class="form-control" id="std-number" placeholder="{{ __('resubscribe.Serial Number') }}">
                                     </div>
 
                                     <div class="form-group text-center">
@@ -471,33 +483,139 @@
                                         <div class="alert alert-danger d-none" role="alert">
                                         </div>
                                         <label for="std-name" class="text-right">{{ __('resubscribe.Name') }} *</label>
-                                        <input type="text" min="0" name="student_name" class="form-control" id="std-name" placeholder="..." required readonly>
+                                        <input type="text" min="0" name="student_name" class="form-control" id="std-name" placeholder="..." readonly>
                                     </div>
 
                                 </div>
 
-                                <div id="favorite_times_female" class="d-none">
+                                <div id="favorite_times">
                                     <label for="std-email-conf" class="text-right w-100 label-right">{{ __('one_to_one.Choose your preferred schedule') }}</label>
-                                    @foreach($favorite_times_female as $key => $favorite_time)
-                                        <div class="form-group text-right">
-                                            <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>
-                                            <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">
-                                                {{ $favorite_time->title }}
-                                            </label>
-                                        </div>
-                                    @endforeach
+                                    <div class="form-group text-right">
+                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ __('Morning Session | 09:00 am - 12:00 pm GMT+3') }}" value="{{ __('Morning Session | 09:00 am - 12:00 pm GMT+3') }}">
+                                        <label class="form-check-label label-time" for="{{ __('Morning Session | 09:00 am - 12:00 pm GMT+3') }}">
+                                            {{ __('Morning Session | 09:00 am - 12:00 pm GMT+3') }}
+                                        </label>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ __('Evening Session 1 | 03:00 pm - 06:00 pm GMT+3') }}" value="{{ __('Evening Session 1 | 03:00 pm - 06:00 pm GMT+3') }}">
+                                        <label class="form-check-label label-time" for="{{ __('Evening Session 1 | 03:00 pm - 06:00 pm GMT+3') }}">
+                                            {{ __('Evening Session 1 | 03:00 pm - 06:00 pm GMT+3') }}
+                                        </label>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ __('Evening Session 2 | 07:00 pm - 10:00 pm GMT+3') }}" value="{{ __('Evening Session 2 | 07:00 pm - 10:00 pm GMT+3') }}">
+                                        <label class="form-check-label label-time" for="{{ __('Evening Session 2 | 07:00 pm - 10:00 pm GMT+3') }}">
+                                            {{ __('Evening Session 2 | 07:00 pm - 10:00 pm GMT+3') }}
+                                        </label>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ __('Evening Session 3 | 11:00 pm - 02:00 am GMT+3') }}" value="{{ __('Evening Session 3 | 11:00 pm - 02:00 am GMT+3') }}">
+                                        <label class="form-check-label label-time" for="{{ __('Evening Session 3 | 11:00 pm - 02:00 am GMT+3') }}">
+                                            {{ __('Evening Session 3 | 11:00 pm - 02:00 am GMT+3') }}
+                                        </label>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ __('Evening Session 4 | 02:00 am - 05:00 am GMT+3') }}" value="{{ __('Evening Session 4 | 02:00 am - 05:00 am GMT+3') }}">
+                                        <label class="form-check-label label-time" for="{{ __('Evening Session 4 | 02:00 am - 05:00 am GMT+3') }}">
+                                            {{ __('Evening Session 4 | 02:00 am - 05:00 am GMT+3') }}
+                                        </label>
+                                    </div>
                                 </div>
 
-                                <div id="favorite_times_male" class="d-none">
-                                    <label for="std-email-conf" class="text-right w-100 label-right">{{ __('one_to_one.Choose your preferred schedule') }}</label>
-                                    @foreach($favorite_times_male as $key => $favorite_time)
-                                        <div class="form-group text-right">
-                                            <input class="form-check-input input-time" type="radio" name="favorite_time" id="{{ $favorite_time->title . $key }}" value="{{ $favorite_time->title }}" required>
-                                            <label class="form-check-label label-time" for="{{ $favorite_time->title . $key }}">
-                                                {{ $favorite_time->title }}
-                                            </label>
+                                <br>
+
+                                {{-- yes studied (already_studied)--}}
+                                <div id="already_studied" class="d-none">
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <label for="nationality_studied">{{ __('Nationality') }}</label>
+                                            <select name="nationality_studied" class="form-control js-select2" id="nationality_studied">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    @endforeach
+                                        <div class="col-4 text-right">
+                                            <label for="country_residence_studied">{{ __('Country of residence') }}</label>
+                                            <select name="country_residence_studied" class="form-control js-select2" id="country_residence_studied">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-4 text-right">
+                                            <label for="city">{{ __('city') }}</label>
+                                            <input type="text" name="city_studied" class="form-control" id="city" placeholder="{{ __('city') }}">
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <label for="postal_code">{{ __('Postal code') }}</label>
+                                            <input type="text" name="postal_code_studied" id="postal_code" class="form-control" placeholder="{{ __('Postal code') }}">
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <label for="place_birth">{{ __('Place of birth') }}</label>
+                                            <input type="text" name="place_birth_studied" id="place_birth" class="form-control" placeholder="{{ __('Place of birth') }}">
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <label for="address">{{ __('Address - Street - Building') }}</label>
+                                            <textarea type="text" name="address_studied" id="address" class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <label for="id_number">{{ __('ID/Passport Number') }}</label>
+                                            <input type="text" name="id_number_studied" class="form-control" placeholder="{{ __('ID/Passport Number') }}">
+                                        </div>
+                                        <p class="text-center" style="color: #ff0000;">{{ __('sure the address is correct') }}</p>
+                                    </div>
+
+                                    <br>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-6 text-right">
+                                            <label for="father_whatsApp_studied">{{ __('Father’s WhatsApp Number') }}</label>
+                                            <select name="father_whatsApp_studied" class="form-control js-select2" id="father_whatsApp_studied">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->code }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="text" name="father_whatsApp_number_studied" id="father_whatsApp_number" class="form-control">
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <label for="mother_whatsApp_studied">{{ __('Mother’s WhatsApp Number') }}</label>
+                                            <select name="mother_whatsApp_studied" class="form-control js-select2" id="mother_whatsApp_studied">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->code }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="text" name="mother_whatsApp_number_studied" id="mother_whatsApp_number" class="form-control">
+                                        </div>
+
+                                        <br>
+
+                                        <div class="col-6 text-right">
+                                            <label for="father_email">{{ __('Father’s E-mail') }}</label>
+                                            <input type="email" name="father_email_studied" id="father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
+                                            <input type="email" name="confirm_father_email_studied" id="confirm_father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <label for="mother_email" style="font-size: 15px;">{{ __('Mother’s E-mail') }}</label>
+                                            <input type="email" name="mother_email_studied" id="mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
+                                            <input type="email" name="confirm_mother_email_studied" id="confirm_mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
+                                        </div>
+
+                                        <p class="text-center w-100" style="color: #ff0000;">{{ __('Note: messages are sent on the (Email).') }}</p>
+
+                                        <br>
+
+                                        <div class="col-6 text-right">
+                                            <label for="preferred_language">{{ __('Preferred language') }}</label>
+                                            <select name="preferred_language_studied" class="form-control" id="preferred_language">
+                                                <option value="Arabic">{{ __('Arabic') }}</option>
+                                                <option value="English">{{ __('English') }}</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                                 <div id="not_study_before_student" class="d-none">
@@ -505,6 +623,17 @@
                                         <label for="birthdate">{{ __('Birthdate') }}</label>
                                         <input type="date" class="form-control" name="birthdate" id="birthdate" placeholder="{{ __('Birthdate') }}">
                                     </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="std-section">{{ __('resubscribe.Section') }}</label>
+                                        </div>
+                                        <select class="custom-select" name="new_student_section" id="new_student_section">
+                                            <option selected>{{ __('resubscribe.Choose') }}...</option>
+                                            <option value="1">{{ __('resubscribe.Male') }}</option>
+                                            <option value="2">{{ __('resubscribe.Female') }}</option>
+                                        </select>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-6 text-right">
                                             <label for="first_name">{{ __('First Name') }}</label>
@@ -515,8 +644,8 @@
                                             <input type="text" name="father_name" class="form-control" id="father_name" placeholder="{{ __('Father Name') }}">
                                         </div>
                                         <div class="col-6 text-right">
-                                            <label for="birthdate">{{ __('Grandfather Name') }}</label>
-                                            <input type="text" class="form-control" placeholder="{{ __('Grandfather Name') }}">
+                                            <label for="grandfather_name">{{ __('Grandfather Name') }}</label>
+                                            <input type="text" class="form-control" name="grandfather_name" id="grandfather_name" placeholder="{{ __('Grandfather Name') }}">
                                         </div>
                                         <div class="col-6 text-right">
                                             <label for="family_name">{{ __('Family Name') }}</label>
@@ -529,14 +658,18 @@
                                     <div class="row">
                                         <div class="col-4 text-right">
                                             <label for="nationality">{{ __('Nationality') }}</label>
-                                            <select name="nationality" class="form-control" id="nationality">
-                                                <option value="{{ __('Nationality') }}">{{ __('Nationality') }}</option>
+                                            <select name="nationality" class="form-control js-select2" id="nationality">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-4 text-right">
                                             <label for="country_residence">{{ __('Country of residence') }}</label>
-                                            <select name="country_residence" class="form-control" id="country_residence">
-                                                <option value="{{ __('Country of residence') }}">{{ __('Country of residence') }}</option>
+                                            <select name="country_residence" class="form-control js-select2" id="country_residence">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
@@ -556,7 +689,7 @@
                                             <label for="address">{{ __('Address - Street - Building') }}</label>
                                             <textarea type="text" name="address" id="address" class="form-control"></textarea>
                                         </div>
-                                        <div class="col-4 text-right">
+                                        <div class="col-6 text-right">
                                             <label for="id_number">{{ __('ID/Passport Number') }}</label>
                                             <input type="text" name="id_number" class="form-control" placeholder="{{ __('ID/Passport Number') }}">
                                         </div>
@@ -569,15 +702,19 @@
                                     <div class="row">
                                         <div class="col-6 text-right">
                                             <label for="father_whatsApp">{{ __('Father’s WhatsApp Number') }}</label>
-                                            <select name="father_whatsApp" class="form-control" id="father_whatsApp">
-                                                <option value="{{ __('Father’s WhatsApp Number') }}">{{ __('Father’s WhatsApp Number') }}</option>
+                                            <select name="father_whatsApp" class="form-control js-select2" id="father_whatsApp">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->code }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                             <input type="text" name="father_whatsApp_number" id="father_whatsApp_number" class="form-control">
                                         </div>
                                         <div class="col-6 text-right">
                                             <label for="mother_whatsApp">{{ __('Mother’s WhatsApp Number') }}</label>
-                                            <select name="mother_whatsApp" class="form-control" id="mother_whatsApp">
-                                                <option value="{{ __('Mother’s WhatsApp Number') }}">{{ __('Mother’s WhatsApp Number') }}</option>
+                                            <select name="mother_whatsApp" class="form-control js-select2" id="mother_whatsApp">
+                                                @foreach($countries as $country)
+                                                    <option value="{{ $country->code }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                             <input type="text" name="mother_whatsApp_number" id="mother_whatsApp_number" class="form-control">
                                         </div>
@@ -590,7 +727,7 @@
                                             <input type="text" name="confirm_father_email" id="confirm_father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
                                         </div>
                                         <div class="col-6 text-right">
-                                            <label for="mother_email">{{ __('Mother’s E-mail') }}</label>
+                                            <label for="mother_email" style="font-size: 15px;">{{ __('Mother’s E-mail') }}</label>
                                             <input type="text" name="mother_email" id="mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
                                             <input type="text" name="confirm_mother_email" id="confirm_mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
                                         </div>
@@ -650,20 +787,20 @@
                                         <div class="col-6 text-right">
                                             <label class="text-right w-100 label-right">{{ __('Has he/she any chronic disease?') }}:</label>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="chronic_disease" id="chronic_disease_yes" value="yes" required>
+                                                <input class="form-check-input input-time" type="radio" name="chronic_disease" id="chronic_disease_yes" value="yes">
                                                 <label class="form-check-label label-time" for="chronic_disease_yes">
                                                     {{ __('yes') }}
                                                 </label>
                                             </div>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="chronic_disease_no" id="no" value="no" required>
+                                                <input class="form-check-input input-time" type="radio" name="chronic_disease" id="no" value="no">
                                                 <label class="form-check-label label-time" for="chronic_disease_no">
                                                     {{ __('no') }}
                                                 </label>
                                             </div>
                                         </div>
 
-                                        <div class="col-6 text-right">
+                                        <div class="col-6 text-right d-none" id="explain_disease">
                                             <label for="current_disease">{{ __('Explain the current disease') }}</label>
                                             <textarea type="text" name="current_disease" class="form-control"></textarea>
                                         </div>
@@ -677,20 +814,20 @@
                                         <div class="col-6 text-right">
                                             <label class="text-right w-100 label-right">{{ __('Has the student participated in any Qur’an school?') }}:</label>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="quran_school" id="quran_school_yes" value="yes" required>
+                                                <input class="form-check-input input-time" type="radio" name="quran_school" id="quran_school_yes" value="yes">
                                                 <label class="form-check-label label-time" for="quran_school_yes">
                                                     {{ __('yes') }}
                                                 </label>
                                             </div>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="quran_school" id="quran_school_no" value="no" required>
+                                                <input class="form-check-input input-time" type="radio" name="quran_school" id="quran_school_no" value="no">
                                                 <label class="form-check-label label-time" for="quran_school_no">
                                                     {{ __('no') }}
                                                 </label>
                                             </div>
                                         </div>
 
-                                        <div class="col-6 text-right">
+                                        <div class="col-6 text-right d-none" id="name-school-section">
                                             <label for="name_school">{{ __('Name of the school') }}</label>
                                             <input type="text" name="name_school" id="name_school" class="form-control" placeholder="{{ __('Name of the school') }}">
                                         </div>
@@ -698,13 +835,13 @@
                                         <div class="col-12 text-right">
                                             <label class="text-right w-100 label-right">{{ __('Has the student studied Qaeedah Nurania?') }}:</label>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="studied_qaeedah" id="studied_qaeedah_yes" value="yes" required>
+                                                <input class="form-check-input input-time" type="radio" name="studied_qaeedah" id="studied_qaeedah_yes" value="yes">
                                                 <label class="form-check-label label-time" for="studied_qaeedah_yes">
                                                     {{ __('yes') }}
                                                 </label>
                                             </div>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="radio" name="studied_qaeedah" id="studied_qaeedah_no" value="no" required>
+                                                <input class="form-check-input input-time" type="radio" name="studied_qaeedah" id="studied_qaeedah_no" value="no">
                                                 <label class="form-check-label label-time" for="studied_qaeedah_no">
                                                     {{ __('no') }}
                                                 </label>
@@ -718,16 +855,18 @@
                                             <br>
 
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="file" name="student_id" id="student_id" required>
-                                                <label class="form-check-label label-time" for="student_id">
+                                                <label class="form-check-label label-time w-100" for="student_id">
                                                     {{ __('Student ID') }}
                                                 </label>
+                                                <input class="form-check-input input-time" type="file" name="student_id" id="student_id">
                                             </div>
+                                            <br>
+                                            <br>
                                             <div class="form-group text-right w-100">
-                                                <input class="form-check-input input-time" type="file" name="guardian_id" id="guardian_id" required>
-                                                <label class="form-check-label label-time" for="guardian_id">
+                                                <label class="form-check-label label-time w-100" for="guardian_id">
                                                     {{ __('Guardian ID') }}
                                                 </label>
+                                                <input class="form-check-input input-time" type="file" name="guardian_id" id="guardian_id">
                                             </div>
 
                                             <br>
@@ -737,7 +876,7 @@
                                             <div icd="guardian_commitment_section">
                                                 <label class="text-right w-100 label-right" style="color: #ff0000 !important;">{{ __('Guardian Signature') }}:</label>
                                                 <div class="form-group text-right">
-                                                    <input class="form-check-input input-time" type="radio" name="guardian_commitment" id="guardian_commitment" required>
+                                                    <input class="form-check-input input-time" type="radio" name="guardian_commitment" id="guardian_commitment">
                                                     <label class="form-check-label label-time" style="color: #ff0000 !important;" for="guardian_commitment">
                                                         {{ __('Guardian Commitment') }}
                                                     </label>
@@ -751,28 +890,8 @@
                                     <hr>
 
                                 </div>
-
-                                <div class="d-none">
-                                    <div class="form-group text-right">
-                                        <label for="residence_country">{{ __('resubscribe.Country of Residence') }}</label>
-                                        <select class="form-control" name="residence_country" id="residence_country" required>
-                                            <option> - </option>
-                                            @foreach($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group text-right">
-                                        <label for="std-email">{{ __('resubscribe.Email') }}</label>
-                                        <input type="email" class="form-control" name="email" id="std-email" placeholder="{{ __('resubscribe.Email') }}" required>
-                                    </div>
-                                    <div class="form-group text-right" id="confirm-email">
-                                        <label for="std-email-conf">{{ __('resubscribe.Confirm Email') }}</label>
-                                        <input type="email" class="form-control" id="std-email-conf" placeholder="{{ __('resubscribe.Confirm Email') }}" required>
-                                    </div>
-                                </div>
-
                             </div>
+
                             <input type="button" name="next" class="next action-button" value="{{ __('resubscribe.Next') }}" />
                             <input type="button" name="previous" class="previous action-button-previous" value="{{ __('resubscribe.Previous') }}" />
                         </fieldset>
@@ -961,9 +1080,12 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     $(document).ready(function(){
+
+        $('.js-select2').select2();
 
         var current_fs, next_fs, previous_fs; //fieldsets
         var opacity;
@@ -1076,14 +1198,16 @@
                     $('form #std-name').val(data.name);
                     $('form #std-name').css('border-color', 'green');
                     $('form #std-name-section .alert').addClass('d-none');
+                    $('#already_studied').removeClass('d-none');
                 },
                 error: function (data){
                     $('form #std-name').val('');
-                    $('form #std-name').attr("placeholder", data.responseJSON.msg);
-                    $('form #std-name').attr("title", data.responseJSON.msg);
+                    $('form #std-name').attr("placeholder", '!');
+                    $('form #std-name').attr("title", '!');
                     $('form #std-name').css('border-color', 'red');
                     $('form #std-name-section .alert').html(data.responseJSON.msg);
                     $('form #std-name-section .alert').removeClass('d-none');
+                    $('#already_studied').addClass('d-none');
                 }
             });
         });
@@ -1126,29 +1250,41 @@
 
         function validate(current_fs) {
             let inputs = current_fs.find("input[required]");
-            let radioBoxes = current_fs.find('input[type=radio]');
+            let signature = $('#signature-section input[type=radio]');
+            let studyBeforeRadio = current_fs.find('input[name=study_before]');
 
             flag = true;
+            if (!signature[0].checked){
+                $('#signature-section .error-msg-times').remove();
+                $('#signature-section').prepend(`<div class="alert alert-danger error-msg-times text-right" role="alert">
+                                              {{ __('You must confirm your familiarity with the distance education system') }}
+                </div>`);
+                return false;
+            }else{
+                flag = true;
+                $('#signature-section .error-msg-times').remove();
+            }
 
-            for (index = 0; index < radioBoxes.length; ++index) {
-                if (!radioBoxes[index].checked){
-                    $(radioBoxes[index]).css('border-color', 'red');
+            for (let index = 0; index < studyBeforeRadio.length; ++index) {
+                if (!studyBeforeRadio[index].checked){
+                    $(studyBeforeRadio[index]).css('border-color', 'red');
                     flag = false;
                 }else{
-                    $(radioBoxes[index]).css('border-color', 'green');
+                    $(studyBeforeRadio[index]).css('border-color', 'green');
                     flag = true;
                     break;
                 }
-
             }
 
-            if(!flag){
-                $('.error-msg-times').remove();
-                $('#confirm-email').append(`<div class="alert alert-danger error-msg-times" role="alert">
-                                              {{ __('one_to_one.please select best time') }}
-                                            </div>`);
-            }else{
-                $('.error-msg-times').remove();
+            if (studyBeforeRadio !== undefined){
+                if (!flag){
+                    $('#study-before-section .error-msg-times').remove();
+                    $('#study-before-section').prepend(`<div class="alert alert-danger error-msg-times text-right" role="alert">
+                                              {{ __('You must confirm one of the following options') }}
+                    </div>`);
+                }else{
+                    $('#study-before-section .error-msg-times').remove();
+                }
             }
 
             for (index = 0; index < inputs.length; ++index) {
@@ -1187,16 +1323,64 @@
             }
         });
 
+        $(document).on('change', 'select[name="father_whatsApp_studied"]', function (e) {
+            $('input[name="father_whatsApp_number_studied"]').val("+" + $(this).val() + " ");
+        });
+
+        $(document).on('change', 'select[name="mother_whatsApp_studied"]', function (e) {
+            $('input[name="mother_whatsApp_number_studied"]').val("+" + $(this).val() + " ");
+        });
+
+        //====================
+        $(document).on('change', 'select[name="father_whatsApp"]', function (e) {
+            $('input[name="father_whatsApp_number"]').val("+" + $(this).val() + " ");
+        });
+
+        $(document).on('change', 'select[name="mother_whatsApp"]', function (e) {
+            $('input[name="mother_whatsApp_number"]').val("+" + $(this).val() + " ");
+        });
+
+        $(document).on('change', 'input[name="chronic_disease"]', function (e) {
+            if($(this).val() == 'no'){
+                $('textarea[name="current_disease"]').removeAttr('required');
+                $('#explain_disease').addClass('d-none');
+            }else{
+                $('textarea[name="current_disease"]').prop('required', true);
+                $('#explain_disease').removeClass('d-none');
+            }
+        });
+
+        $(document).on('change', 'input[name="quran_school"]', function (e) {
+            if($(this).val() == 'no'){
+                $('input[name="name_school"]').removeAttr('required');
+                $('#name-school-section').addClass('d-none');
+            }else{
+                $('input[name="name_school"]').prop('required', true);
+                $('#name-school-section').removeClass('d-none');
+            }
+        });
+
         $(document).on('change', 'input[name="study_before"]', function (e) {
 
             if ($(this).val() == 'yes'){
                 $('#study_before_student').removeClass('d-none');
                 $('#not_study_before_student').removeClass('d-none');
                 $('#not_study_before_student').addClass('d-none');
+
+                $('#already_studied input, #already_studied select').prop('required', true);
+                $('#not_study_before_student input, #not_study_before_student select').removeAttr('required');
+
+                $('#study_before_student input, #study_before_student select').prop('required', true);
             }else{
                 $('#not_study_before_student').removeClass('d-none');
                 $('#study_before_student').removeClass('d-none');
                 $('#study_before_student').addClass('d-none');
+
+                $('#already_studied').addClass('d-none');
+                $('#already_studied input, #already_studied select').removeAttr('required');
+                $('#not_study_before_student input, #not_study_before_student select').prop('required', true);
+
+                $('#study_before_student input, #study_before_student select').removeAttr('required');
             }
 
         });

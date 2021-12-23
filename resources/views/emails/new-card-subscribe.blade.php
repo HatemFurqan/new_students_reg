@@ -23,6 +23,19 @@
 </style>
 
 <body>
+
+@php
+    $relation = 'student';
+    if ($details->form_type == 'stopped-students'){
+        $relation = 'student';
+    }
+
+    if ($details->form_type == 'new-students'){
+        $relation = 'newStudent';
+        $details->newStudent['name'] = $details->{$relation}->first_name . ' ' . $details->{$relation}->father_name . ' ' . $details->{$relation}->grandfather_name . ' ' . $details->{$relation}->family_name;
+        $details->newStudent['serial_number'] = '-';
+    }
+@endphp
 <div style="border: 2px solid black; width: 70%; margin: 0 auto;">
     <div style="text-align: center;font-family: arial, sans-serif">
         <img src="{{ public_path('dashboard\assets\img\logo3.png') }}" alt="">
@@ -47,13 +60,13 @@
             </tr>
             <tr style="height: 40px">
                 <td style="width: 30%;padding-right:10px;text-align: right;border: 1px solid gray; font-size: 16px;font-family: arial, sans-serif">
-                    {{ $details->student->name }}
+                    {{ $details->{$relation}->name }}
                 </td>
                 <td style="border: 1px solid gray;width: 30%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    {{ $details->student->serial_number }}
+                    {{ $details->{$relation}->serial_number }}
                 </td>
                 <td style="border: 1px solid gray;width: 40%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    {{ $details->student->section == '1' ? 'بنين' : 'بنات' }}
+                    {{ $details->{$relation}->section == '1' ? 'بنين' : 'بنات' }}
                 </td>
 
             </tr>
