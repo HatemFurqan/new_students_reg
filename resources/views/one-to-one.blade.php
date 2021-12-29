@@ -599,12 +599,12 @@
                                         <div class="col-6 text-right">
                                             <label for="father_email">{{ __('Father’s E-mail') }}</label>
                                             <input type="email" name="father_email_studied" id="father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
-                                            <input type="email" name="confirm_father_email_studied" id="confirm_father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
+                                            <input type="email" name="confirm_father_email_studied" id="confirm_father_email" class="form-control" placeholder="{{ __('Confirm Father’s E-mail') }}">
                                         </div>
                                         <div class="col-6 text-right">
                                             <label for="mother_email" style="font-size: 15px;">{{ __('Mother’s E-mail') }}</label>
                                             <input type="email" name="mother_email_studied" id="mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
-                                            <input type="email" name="confirm_mother_email_studied" id="confirm_mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
+                                            <input type="email" name="confirm_mother_email_studied" id="confirm_mother_email" class="form-control" placeholder="{{ __('Confirm Mother’s E-mail') }}">
                                         </div>
 
                                         <p class="text-center w-100" style="color: #ff0000;">{{ __('Note: messages are sent on the (Email).') }}</p>
@@ -728,12 +728,12 @@
                                         <div class="col-6 text-right">
                                             <label for="father_email">{{ __('Father’s E-mail') }}</label>
                                             <input type="text" name="father_email" id="father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
-                                            <input type="text" name="confirm_father_email" id="confirm_father_email" class="form-control" placeholder="{{ __('Father’s E-mail') }}">
+                                            <input type="text" name="confirm_father_email" id="confirm_father_email" class="form-control" placeholder="{{ __('Confirm Father’s E-mail') }}">
                                         </div>
                                         <div class="col-6 text-right">
                                             <label for="mother_email" style="font-size: 15px;">{{ __('Mother’s E-mail') }}</label>
                                             <input type="text" name="mother_email" id="mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
-                                            <input type="text" name="confirm_mother_email" id="confirm_mother_email" class="form-control" placeholder="{{ __('Mother’s E-mail') }}">
+                                            <input type="text" name="confirm_mother_email" id="confirm_mother_email" class="form-control" placeholder="{{ __('Confirm Mother’s E-mail') }}">
                                         </div>
 
                                         <p class="text-center w-100" style="color: #ff0000;">{{ __('Note: messages are sent on the (Email).') }}</p>
@@ -1388,6 +1388,7 @@
                 $('#not_study_before_student input, #not_study_before_student select').removeAttr('required');
 
                 $('#study_before_student input, #study_before_student select').prop('required', true);
+                $('input[name="other_social_situation"]').removeAttr('required');
             }else{
                 $('#not_study_before_student').removeClass('d-none');
                 $('#study_before_student').removeClass('d-none');
@@ -1398,6 +1399,7 @@
                 $('#not_study_before_student input, #not_study_before_student select').prop('required', true);
 
                 $('#study_before_student input, #study_before_student select').removeAttr('required');
+                $('input[name="other_social_situation"]').removeAttr('required');
             }
 
         });
