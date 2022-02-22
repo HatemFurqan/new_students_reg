@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'https://eservices.fg2020.com/#/portal/new-students',
+        'https://eservices.fg2020.com/*',
+        'http://eservices.fg2020.com/*'
     ];
 }

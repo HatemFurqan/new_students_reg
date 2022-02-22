@@ -13,13 +13,18 @@ class CouponController extends Controller
     public function applyCoupon()
     {
         $code = \request()->query('code');
-        $student_number = \request()->query('std_number');
-        $student = Student::query()->where('serial_number', $student_number)->first();
-        if (!$student){
-            return response()->json(['msg' => __('resubscribe.Please enter your student number')], 404, [], JSON_UNESCAPED_UNICODE);
-        }
 
-        Session::put('student_id', $student->id);
+        $study_before = \request()->query('study_before');
+        if ($study_before == 'yes'){
+            $student_number = \request()->query('std_number');
+            $student = Student::query()->where('serial_number', $student_number)->first();
+            if (!$student){
+                return response()->json(['msg' => __('resubscribe.Please enter your student number')], 404, [], JSON_UNESCAPED_UNICODE);
+            }
+            Session::put('student_id', $student->id);
+        }else{
+            Session::put('student_type', 'new_student');
+        }
 
         $course = Course::query()->where('code', 'new-students')->first();
         $coupon = Coupon::where('code', $code)->where('course_id', $course->id)->first();

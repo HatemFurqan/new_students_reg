@@ -68,6 +68,33 @@
                 </ul>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('dashboard.import.students.show') }}">
+                    <i class="fa fa-user-graduate"></i>
+                    <span class="menu-title" data-i18n="nav.templates.main">تحديث بيانات الطلاب</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('dashboard.courses.index') }}">
+                    <i class="fa fa-book"></i>
+                    <span class="menu-title" data-i18n="nav.templates.main">جميع استمارات التسجيل</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('dashboard.show_translate', 'en') }}">
+                    <i class="fa fa-comments"></i>
+                    <span class="menu-title" data-i18n="nav.templates.main">ترجمة النصوص الانجليزية</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard.show_translate', 'ar') }}">
+                    <i class="fa fa-comments"></i>
+                    <span class="menu-title" data-i18n="nav.templates.main">ترجمة النصوص العربية</span>
+                </a>
+            </li>
+
         </ul>
 
     </div>

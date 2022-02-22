@@ -4,6 +4,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SemesterRegistrationController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\CouponController;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
     // get student info
     Route::get('/semester-registration/get-student-info', [SemesterRegistrationController::class, 'getStudentInfo'])->name('semester.registration.getStudentInfo');
 
+    Route::get('/thank-you-page', [SemesterRegistrationController::class, 'thankYouPage'])->name('semester.thankYouPage');
+
     // import files to database
 //    Route::get('/importCountries', [ImportController::class, 'importCountries']);
 //    Route::get('/importStudents', [ImportController::class, 'importStudents']);
@@ -37,9 +40,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [ 'l
 
 });
 
- Route::get('/test', function (\App\Services\GoogleSheet $googleSheet){
-//    dd($googleSheet->readGoogleSheet()[1][0]);
- });
+Route::get('/clear-cache', function() {
+    Artisan::call('optimize:clear');
+    echo "Cleared";
+});
 
 //Auth::routes();
 

@@ -39,7 +39,7 @@
 <div style="border: 2px solid black; width: 70%; margin: 0 auto;">
     <div style="text-align: center;font-family: arial, sans-serif">
         <img src="{{ public_path('dashboard\assets\img\logo3.png') }}" alt="">
-        <h1> تسجيل للفصل الثاني 1443 - فردي </h1>
+        <h1> {{ __('Registration for the second semester') }}</h1>
     </div>
 
     <div>
@@ -49,13 +49,13 @@
             <tbody>
             <tr style="height: 40px;">
                 <td style="width: 30%;padding-right:10px;text-align: right;border: 1px solid gray; font-size: 16px;font-family: arial, sans-serif">
-                    الاسم:
+                    {{ __('name') }}
                 </td>
                 <td style="border: 1px solid gray;width: 30%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    الرقم التسلسلي:
+                    {{ __('Serial Number') }}
                 </td>
                 <td style="border: 1px solid gray;width: 40%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    القسم:
+                    {{ __('Section') }}
                 </td>
             </tr>
             <tr style="height: 40px">
@@ -66,16 +66,16 @@
                     {{ $details->{$relation}->serial_number }}
                 </td>
                 <td style="border: 1px solid gray;width: 40%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    {{ $details->{$relation}->section == '1' ? 'بنين' : 'بنات' }}
+                    {{ $details->{$relation}->section == '1' ? __('Males') : __('Females') }}
                 </td>
 
             </tr>
             <tr style="height: 40px">
                 <td style="width: 30%;padding-right:10px;text-align: right;border: 1px solid gray; font-size: 16px;font-family: arial, sans-serif">
-                    طريقة الدفع
+                    {{ __('Payment Method') }}
                 </td>
                 <td style="border: 1px solid gray;width: 30%; font-size: 16px; text-align: center;font-family: arial, sans-serif">
-                    بطاقة ائتمانية
+                    {{ __('Bank Transfer') }}
                 </td>
                 <td style="border: 1px solid gray;width: 80px; font-size: 16px; text-align: center;font-family: arial, sans-serif">
                     ----

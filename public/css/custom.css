@@ -1,0 +1,24 @@
+@media only screen and (max-width: 600px) {
+    #top-nav-links {
+        width: 100% !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #top-nav-links .nav-item a {
+        font-size: 9px !important;
+    }
+
+    #change-langs .navbar-nav {
+        display: flex !important;
+        flex-direction: revert !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+    }
+
+    h2#heading {
+        font-size: 23px !important;
+    }
+
+}

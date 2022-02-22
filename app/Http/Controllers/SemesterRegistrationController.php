@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Course;
 use App\Models\FavoriteTime;
 use App\Models\Student;
 use App\Models\Subscribe;
@@ -10,7 +11,9 @@ use App\Service\Payment\Checkout;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use function GuzzleHttp\json_decode;
 
@@ -29,12 +32,23 @@ class SemesterRegistrationController extends Controller
         $this->public = $config['checkout_pk'];
     }
 
+    public function thankYouPage()
+    {
+
+        $countries = Country::query()->where('lang', '=', App::getLocale())->get();
+        $course = Course::query()->where('code', '=', 'new-students')->first();
+
+        return view('thank-you-page', ['countries' => $countries, 'course' => $course]);
+    }
+
     public function indexOneToOne()
     {
+
         if(request()->query('cko-session-id')){
             $client = new Client(['base_uri' => $this->payment_link]);
 
             try {
+
                 $response = $client->request('GET', '/payments/' . request()->query('cko-session-id'),
                     [
                         'headers' => [
@@ -65,17 +79,19 @@ class SemesterRegistrationController extends Controller
                     session()->flash('error', __('resubscribe.Payment failed'));
                 }
 
-                return redirect()->route('semester.indexOneToOne');
+                return redirect()->route('semester.thankYouPage');
             }catch (\GuzzleHttp\Exception\ClientException $e) {
 //                $response = $e->getResponse();
+
                 session()->flash('error', __('resubscribe.Payment failed'));
-                return redirect()->route('semester.indexOneToOne');
+                return redirect()->route('semester.thankYouPage');
             }
         }
 
         $countries = Country::query()->where('lang', '=', App::getLocale())->get();
+        $course = Course::query()->where('code', '=', 'new-students')->first();
 
-        return view('one-to-one', ['countries' => $countries]);
+        return view('one-to-one', ['countries' => $countries, 'course' => $course]);
     }
 
     public function getStudentInfo()

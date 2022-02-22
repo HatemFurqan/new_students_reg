@@ -19,6 +19,13 @@ class Coupon extends Model
 
     public function getIsValidAttribute(){
         $student_id = Session::get('student_id');
+        $student_type = Session::get('student_type');
+
+        if ($student_type == 'new_student'){
+            return $this->active &&
+                $this->validDates() &&
+                $this->validUsageLimit();
+        }
 
         return $student_id &&
             $this->active &&
