@@ -12,6 +12,11 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
     
+    - name: 📂 Change Directory
+      run: |
+        cd ..
+        cd new_students_warsh_app
+        
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
