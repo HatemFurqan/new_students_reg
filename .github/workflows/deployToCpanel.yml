@@ -16,11 +16,12 @@ jobs:
       run: |
         cd ..
         pwd
+        echo 123
         
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server-dir: home/reports/new_students_warsh_app/
-        server: reports.furqangroup.com
+        server-dir: new_students_warsh_app/
+        server: reports.furq8angroup.com
         username: hatim@reports.furqangroup.com
         password: ${{ secrets.FTP_PASSWORD }}
