@@ -23,5 +23,5 @@ jobs:
       with:
         server-dir: public_html/test/
         server: reports.furqangroup.com
-        username: hatim@reports.furqangroup.com
+        username: HatemFurqan@reports.furqangroup.com
         password: ${{ secrets.FTP_PASSWORD }}
