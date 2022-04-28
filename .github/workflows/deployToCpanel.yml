@@ -21,7 +21,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server-dir: public_html/test/
         server: reports.furqangroup.com
-        username: HatemFurqan@reports.furqangroup.com
+        username: new_students_warsh_app@reports.furqangroup.com
         password: ${{ secrets.FTP_PASSWORD }}
